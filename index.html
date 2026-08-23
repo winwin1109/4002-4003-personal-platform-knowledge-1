@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一手資料蒐集方法 - 互動補充知識庫</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            font-family: 'PingFang HK', 'Microsoft JhengHei', sans-serif; 
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            background-attachment: fixed;
+            color: #333; 
+        }
+        
+        /* 翻轉卡片動畫樣式 */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner, .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            border: 2px solid transparent;
+        }
+        .flip-card-front {
+            background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+        }
+        .flip-card-back {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* 題目按鈕樣式 */
+        .topic-btn { transition: all 0.3s ease; border: 2px solid transparent; }
+        .topic-btn:hover { transform: translateX(5px); border-color: #93c5fd; background-color: #eff6ff; }
+        .topic-btn.active { background: linear-gradient(to right, #3b82f6, #2563eb); color: white; transform: scale(1.02); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); border-color: transparent; font-weight: bold;}
+        
+        /* 隱藏捲軸但保留功能 */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-12">
+
+    <!-- 頂部導覽列 -->
+    <nav class="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white p-5 shadow-xl sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center max-w-7xl gap-4">
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide flex items-center gap-3">
+                <span class="text-4xl animate-bounce">🕵️‍♀️</span> 專題研習：一手資料蒐集知識庫
+            </h1>
+            <p class="text-blue-200 font-bold text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">🔍 學習如何找出真相與探究事實</p>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4 md:p-6 max-w-7xl mt-6">
+        
+        <!-- 第一部分：5 大方法概念卡片 -->
+        <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-blue-100 mb-10">
+            <h2 class="text-2xl md:text-3xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-700 flex items-center gap-2">
+                <span>🧠</span> 認識 5 大一手資料蒐集方法
+            </h2>
+            <p class="text-gray-600 mb-8 font-medium">一手資料是指自己直接搜集整理或親身經歷所得的材料。請將滑鼠移至（或點擊）下方卡片，了解每種方法的特點！</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 h-64 md:h-72">
+                
+                <!-- 卡片 1：實地觀察 -->
+                <div class="flip-card h-full">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front hover:border-blue-300">
+                            <span class="text-5xl md:text-6xl mb-4">👀</span>
+                            <h3 class="text-xl font-black text-gray-800">實地觀察</h3>
+                            <p class="text-sm text-gray-500 mt-2 font-bold">用感官直接紀錄</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-lg font-black mb-2 border-b border-blue-300 pb-1">實地觀察</h3>
+                            <p class="text-xs text-blue-100 leading-relaxed text-left mb-2">利用感官（如眼睛、耳朵）去直接觀察，獲得人物行為、事件、場地等資訊。</p>
+                            <p class="text-xs text-blue-100 leading-relaxed text-left font-bold bg-blue-900/50 p-2 rounded">✅ 好處：方法靈活，使用範圍大。</p>
+                            <p class="text-[10px] text-yellow-300 mt-2 text-left">📝 提示：需記錄日期、時間及地點，可用照片或影片記錄。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卡片 2：問卷調查 -->
+                <div class="flip-card h-full">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front hover:border-orange-300">
+                            <span class="text-5xl md:text-6xl mb-4">📋</span>
+                            <h3 class="text-xl font-black text-gray-800">問卷調查</h3>
+                            <p class="text-sm text-gray-500 mt-2 font-bold">收集大眾意見</p>
+                        </div>
+                        <div class="flip-card-back" style="background: linear-gradient(135deg, #f97316, #c2410c);">
+                            <h3 class="text-lg font-black mb-2 border-b border-orange-300 pb-1">問卷調查</h3>
+                            <p class="text-xs text-orange-100 leading-relaxed text-left mb-2">藉助統一設計的問題，向被選取的對象了解情況或收集意見。</p>
+                            <p class="text-xs text-orange-100 leading-relaxed text-left font-bold bg-orange-900/50 p-2 rounded">✅ 好處：收集途徑廣，能同時對眾多對象調查，節省時間及資源。</p>
+                            <p class="text-[10px] text-yellow-200 mt-2 text-left">📊 提示：分析結果通常以百分比或圖表呈現。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卡片 3：訪談 -->
+                <div class="flip-card h-full">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front hover:border-purple-300">
+                            <span class="text-5xl md:text-6xl mb-4">🎤</span>
+                            <h3 class="text-xl font-black text-gray-800">訪談</h3>
+                            <p class="text-sm text-gray-500 mt-2 font-bold">深度交流想法</p>
+                        </div>
+                        <div class="flip-card-back" style="background: linear-gradient(135deg, #a855f7, #6b21a8);">
+                            <h3 class="text-lg font-black mb-2 border-b border-purple-300 pb-1">訪談</h3>
+                            <p class="text-xs text-purple-100 leading-relaxed text-left mb-2">通過與受訪者交談，收集對方經驗或意見的一種方法。</p>
+                            <p class="text-xs text-purple-100 leading-relaxed text-left font-bold bg-purple-900/50 p-2 rounded">✅ 好處：問題答案具彈性，所得資料更接近受訪者的真實處境及感受。</p>
+                            <p class="text-[10px] text-yellow-200 mt-2 text-left">🎙️ 提示：可面談或電話訪問，需錄音或筆記做紀錄。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卡片 4：測試 -->
+                <div class="flip-card h-full">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front hover:border-teal-300">
+                            <span class="text-5xl md:text-6xl mb-4">🧪</span>
+                            <h3 class="text-xl font-black text-gray-800">測試</h3>
+                            <p class="text-sm text-gray-500 mt-2 font-bold">獲取客觀數據</p>
+                        </div>
+                        <div class="flip-card-back" style="background: linear-gradient(135deg, #14b8a6, #0f766e);">
+                            <h3 class="text-lg font-black mb-2 border-b border-teal-300 pb-1">測試</h3>
+                            <p class="text-xs text-teal-100 leading-relaxed text-left mb-2">通過科學方法收集數據，測量儀器性能或空間、時間、溫度等數值。</p>
+                            <p class="text-xs text-teal-100 leading-relaxed text-left font-bold bg-teal-900/50 p-2 rounded">✅ 好處：資料客觀，說服力強。</p>
+                            <p class="text-[10px] text-yellow-200 mt-2 text-left">📏 提示：需有完整紀錄（時間、地點、程序及使用工具）。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卡片 5：體驗 -->
+                <div class="flip-card h-full">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front hover:border-pink-300">
+                            <span class="text-5xl md:text-6xl mb-4">🚶</span>
+                            <h3 class="text-xl font-black text-gray-800">體驗</h3>
+                            <p class="text-sm text-gray-500 mt-2 font-bold">親身經歷感受</p>
+                        </div>
+                        <div class="flip-card-back" style="background: linear-gradient(135deg, #ec4899, #be185d);">
+                            <h3 class="text-lg font-black mb-2 border-b border-pink-300 pb-1">體驗</h3>
+                            <p class="text-xs text-pink-100 leading-relaxed text-left mb-2">通過親身經歷來深入認識事物的一種方法。</p>
+                            <p class="text-xs text-pink-100 leading-relaxed text-left font-bold bg-pink-900/50 p-2 rounded">✅ 好處：獲得的資料更真實，可選取自己想要展示的角度。</p>
+                            <p class="text-[10px] text-yellow-200 mt-2 text-left">🎥 提示：體驗時並把過程攝錄下來作為紀錄。</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 第二部分：實戰例子生成器 -->
+        <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+            
+            <!-- 左側：專題題目選單 -->
+            <div class="w-full md:w-1/3 bg-gray-50 border-r border-gray-200 p-6 max-h-[800px] overflow-y-auto scrollbar-hide flex flex-col gap-2">
+                <h3 class="text-xl font-black mb-4 text-gray-800 sticky top-0 bg-gray-50 py-2 z-10 border-b-2 border-gray-200">
+                    📂 選擇你的專題題目：
+                </h3>
+                <div id="topic-list-container" class="flex flex-col gap-2">
+                    <!-- JavaScript 將在此動態生成 19 個按鈕 -->
+                </div>
+            </div>
+
+            <!-- 右側：應用例子展示區 -->
+            <div class="w-full md:w-2/3 p-6 md:p-10 bg-gradient-to-br from-white to-blue-50 relative min-h-[500px]">
+                <div id="welcome-state" class="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                    <span class="text-7xl mb-4 animate-bounce">👈</span>
+                    <h2 class="text-2xl font-black text-blue-900 mb-2">請先在左側選擇你的專題題目</h2>
+                    <p class="text-gray-500 font-medium">點擊後，系統將為你展示如何運用 5 種方法來進行調查！</p>
+                </div>
+
+                <div id="example-state" class="hidden fade-in h-full flex flex-col">
+                    <h2 id="display-topic-title" class="text-2xl md:text-3xl font-black text-indigo-900 mb-2 border-l-8 border-indigo-600 pl-4">題目名稱</h2>
+                    <p class="text-sm text-gray-600 mb-8 ml-6 font-bold">💡 參考以下 5 種方法，為你的小組搜集最具說服力的第一手資料：</p>
+                    
+                    <div class="flex-grow flex flex-col gap-5 overflow-y-auto pr-2" id="examples-container">
+                        <!-- 動態插入 5 個方法的例子 -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript 數據與邏輯 -->
+    <script>
+        // 建立 19 個專題題目的完整資料庫 (包含 5 種方法的具體例子)
+        const examplesDatabase = [
+            { id: 't1', title: '香港名牌選舉', 
+              obs: '到該品牌的實體門市進行實地觀察，記錄一小時內駐足瀏覽產品的人流、顧客購買的行為特徵及門市的陳列吸引力。',
+              ques: '設計網上或實體問卷，向目標顧客群（如商場訪客）收集他們對該品牌知名度、產品品質形象及創新意念的評分。',
+              int: '邀約該品牌的長期忠實顧客進行深入訪談，了解他們堅持購買該品牌產品的具體原因及品牌對他們的獨特價值。',
+              test: '購買該品牌的皇牌產品，與市面上的普通競品進行對比測試（如測試衣物的耐磨度、食品的保鮮期），以客觀數據證明其品質。',
+              exp: '小組成員以「神秘顧客」身份親身經歷該品牌的售後服務或購物流程，並將服務過程及個人感受攝錄下來。'
+            },
+            { id: 't2', title: '最佳幼稚園', 
+              obs: '在幼稚園開放日實地觀察課堂運作，記錄幼兒在課堂上的參與度、笑容頻率，以及教師運用資訊科技教學的實際情況。',
+              ques: '向該校學生的家長派發問卷，調查他們對學校在「照顧不同學習需要」及「培養正面價值觀」方面的滿意度。',
+              int: '訪問該校的資深教師或校長，深入了解其獨特的「有效語文學與教」理念以及實踐這些理念時的真實經驗。',
+              test: '使用分貝計或空氣質素測量儀，測試校園內的環境噪音及空氣流通度，以數據證明學校提供了一個健康舒適的學習環境。',
+              exp: '參與學校舉辦的親子體驗日或試堂活動，親身體驗其「創意藝術教育」的教學手法，並記錄學習過程的感受。'
+            },
+            { id: 't3', title: '社區投資共享基金', 
+              obs: '在社區中心實地觀察受助社群（如長者與青年）的互動情況，記錄他們交流時的肢體語言及笑容，以證明社會網絡的建立。',
+              ques: '向參與該基金項目的街坊進行問卷調查，收集數據以證明計劃是否有效提升了他們的「互助互惠」精神。',
+              int: '與計劃的核心受助者進行深度訪談，讓他們用自己的說話表達該計劃如何改善了他們的真實處境及減輕了生活壓力。',
+              test: '統計並測試該計劃提供的「求助熱線」或「資訊平台」的平均接通時間與回應速度，以客觀數據證明其溝通效率。',
+              exp: '組員親自報名成為該計劃的一日義工，親身體驗派發物資或探訪長者的過程，將社會凝聚的真實感動記錄下來。'
+            },
+            { id: 't4', title: '香港設計大獎', 
+              obs: '在展覽或公共空間實地觀察使用者與該設計作品的互動情況，記錄有沒有使用者因為不便而出現困惑的行為。',
+              ques: '針對該設計的目標市場群體發放問卷，了解大眾對其「創新性」與「美學特色」的接受程度及購買意欲。',
+              int: '訪問專業設計師或業界專家，取得專家對該項產品設計在市場需求及環保影響上的專業評價。',
+              test: '對設計作品進行科學化量度，例如測量其人體工學弧度、承重能力或物料耐熱度，對照相關的設計指引以證明其功能性。',
+              exp: '組員親自試用該設計作品（如試坐設計椅、試用新款程式），把操作時的便利度與觸感等個人深刻感受拍攝下來。'
+            },
+            { id: 't5', title: '最佳旅遊景點', 
+              obs: '到該景點進行實地觀察，統計半小時內於特色地標前拍照打卡的遊客數量，以證明其自然景觀或文化價值的吸引力。',
+              ques: '在景點出口處邀請不同國籍的遊客填寫問卷，評分該景點的「消閒遊樂設施」、「美食」及「相關配套」完善度。',
+              int: '訪問在該景點工作的導賞員或周邊商戶，深入了解該景點在旺季時的盛況及對當地文化的正面推動作用。',
+              test: '使用手機測速軟件測試景點內免費 Wi-Fi 的覆蓋率及網速，或測量洗手間及無障礙設施的距離，以客觀數據證明配套完善。',
+              exp: '親身到該景點遊覽，體驗其主打的遊樂設施或導賞團，並以 Vlog 形式攝錄整個流暢的遊玩過程作為直接展示。'
+            },
+            { id: 't6', title: '最佳餐廳', 
+              obs: '在用餐繁忙時間實地觀察餐廳的環境，記錄侍應的服務效率、上菜時間，以及食客用餐時的滿意表情。',
+              ques: '設計食客滿意度問卷，調查不同年齡層的顧客對食物質量、環境氣氛及菜式創新性的綜合評分。',
+              int: '訪問餐廳的行政總廚，了解他們在食材選購與烹調技巧上的獨特堅持，獲取第一手的理念資料。',
+              test: '使用溫度計量度熱湯上桌時的溫度，或使用噪音計測量餐廳客滿時的環境分貝，客觀證明其食物品質監控及舒適度。',
+              exp: '以神秘食客身份光顧，親身品嚐其招牌菜式，感受食物的口感層次及侍應的服務態度，並拍攝菜式賣相。'
+            },
+            { id: 't7', title: '最佳商務宣傳推廣場地', 
+              obs: '在該場地舉辦展覽期間實地觀察，記錄場內的人流動線是否順暢，以及空間設計是否能有效凸顯參展商的品牌。',
+              ques: '向曾租用該場地的企業主辦方派發問卷，收集他們對場地設施、技術支援及整體服務的滿意度數據。',
+              int: '訪問資深的公關或活動策劃專家，深入了解該場地在業界中的口碑，以及它在化解展覽限制上的優勢。',
+              test: '親自帶備拉尺及儀器，量度場地的樓底高度、貨梯容量或測試投影設備的光度，證明其硬體設施符合大型國際商務標準。',
+              exp: '親身參與在該場地舉辦的一場商務推廣活動，從參觀者的角度感受場館的舒適度、指示牌的清晰度，並記錄體驗。'
+            },
+            { id: 't8', title: '最佳康樂文化設施', 
+              obs: '實地觀察該康文設施的日常使用情況，記錄長者、兒童或傷健人士使用配套設施時的便利程度。',
+              ques: '向該區居民進行問卷調查，了解他們每月使用該設施的頻率，以及對環保元素及場地設計的意見。',
+              int: '訪問當區區議員或地區組織幹事，探討該設施落成後對凝聚社區及提升居民生活質素的實際影響。',
+              test: '測量該設施內的無障礙斜道坡度、洗手間扶手高度，對照建築署的無障礙設計指引，證明其設計合符甚至超出標準。',
+              exp: '組員親自租用或使用該場地的設施（如體育館、自修室），體驗其通風系統及燈光照明，並拍下優良設計的細節。'
+            },
+            { id: 't9', title: '社區體育會計劃', 
+              obs: '到計劃舉辦的訓練場地實地觀察，記錄參加者（如青少年）在運動過程中的投入程度及團隊合作行為。',
+              ques: '向參加該計劃的學員及其家長發放問卷，量化調查該計劃在提升「個人特質（如自信心、紀律）」上的成效。',
+              int: '訪問計劃的教練或導師，深入了解他們在推行計劃時遇到的挑戰，以及見證學員成長的真實個案分享。',
+              test: '對比學員在參與計劃前與參與半年後的體能測試數據（如折返跑秒數、心肺耐力），以科學數據證明計劃能切實提升體質。',
+              exp: '組員親身報名參加一次該體育會的體驗課堂，感受其場地配套是否合適，以及訓練模式是否全面及切實可行。'
+            },
+            { id: 't10', title: '最佳度假酒店', 
+              obs: '實地觀察酒店大堂的登記入住流程，記錄員工的接待態度、微笑頻率及處理排隊人龍的效率。',
+              ques: '向正在辦理退房手續的住客進行問卷調查，收集他們對客房設備、康樂設施及整體酒店環境的評分。',
+              int: '訪問曾在該酒店度假的海外旅客，讓他們用自己的說話表達酒店最令他們印象深刻的特色或服務細節。',
+              test: '在客房內進行科學測試，例如測試 Wi-Fi 速度、量度床墊的軟硬支撐度，或測量空調在特定空間內降溫的速度。',
+              exp: '預訂並親身入住一晚，體驗其水療服務或無邊際泳池，將優雅的客房佈置及令人放鬆的度假氛圍拍攝下來。'
+            },
+            { id: 't11', title: '優質建築大獎 (建築規劃及設計)', 
+              obs: '在該建築物周邊實地觀察，記錄該建築的用地規劃如何與周邊社區融合，以及途人停駐欣賞其外觀的行為。',
+              ques: '向在該建築物內辦公或居住的用戶收集問卷，調查他們對室內視覺規劃、空間實用性及美學設計的滿意度。',
+              int: '訪問參與該項目的建築師或城市規劃師，深入了解他們當初是如何化解地形或法規上的挑戰與限制。',
+              test: '利用儀器測量建築物內的採光度（勒克斯 Lux）或室內通風的風速，以客觀科學數據證明其創意設計兼具實用性。',
+              exp: '親身走訪該建築物的公共空間，體驗其空間設計如何引導人流，並把充滿美學的建築線條和設計細節攝錄下來。'
+            },
+            { id: 't12', title: '優質建築大獎 (環保及可持續發展)', 
+              obs: '實地觀察大廈內的環保設施運作，記錄分類回收箱的使用率、天台綠化區域的植物生長情況及智能燈光系統的運作。',
+              ques: '向大廈租戶發放問卷，調查他們對大廈室內環境質量（如空氣清新度）的感受，以及對減廢政策的配合度。',
+              int: '訪問負責該項目的環保工程顧問，了解大廈在能源效益及可持續發展上所應用的突破性創新技術。',
+              test: '查閱並測試大廈的能源數據，例如實地測量太陽能板的發電功率，或檢測室內空氣的 PM2.5 濃度，客觀證明其環保成效。',
+              exp: '組員親身參與大廈舉辦的綠色導賞團，親手體驗其雨水回收灌溉系統或廚餘處理機，將綠化效益的真實情況記錄下來。'
+            },
+            { id: 't13', title: '優質建築大獎 (智慧建築)', 
+              obs: '實地觀察大廈用戶使用智慧設施的情況，例如無接觸式智能門禁、自動化升降機分流系統的流暢度及用戶行為。',
+              ques: '向大廈的使用者派發問卷，調查這些創新科技應用是否真的為他們帶來了便利、舒適及安全感。',
+              int: '訪問大廈物業管理主管，了解中央智能控制系統在日常營運中如何有效整合資源並達到節能效果。',
+              test: '測試智慧系統的反應時間，例如測量從掃描手機 QR Code 到閘機開啟的毫秒數，或測試智能溫度調節系統的靈敏度。',
+              exp: '親身進入該智慧建築，利用訪客身份體驗其專屬手機應用程式（如預約會議室、室內導航），並拍攝操作過程。'
+            },
+            { id: 't14', title: '優質建築大獎 (人性化建築)', 
+              obs: '實地觀察建築物內各種關愛設計的實際使用情況，例如長者使用防滑扶手、輪椅人士使用升降機的便利行為。',
+              ques: '針對特定群體（如孕婦、長者、傷健人士）進行問卷調查，收集他們對該空間設計在「通達、便利、安全」上的評分。',
+              int: '深度訪問地區活化組織或當區老街坊，探討該建築在保育舊有文化及創造社會效益（如社區凝聚）上的真實影響。',
+              test: '實地測量無障礙通道的寬度、斜坡的傾斜度，對照屋宇署相關指引，以具體數據證明設計符合甚至超越人性化標準。',
+              exp: '組員嘗試蒙眼使用導盲磚，或推著嬰兒車在該建築內行走，親身體驗其關愛設計的細緻程度並記錄感受。'
+            },
+            { id: 't15', title: '香港工商業獎 (工業產品)', 
+              obs: '到產品的展示會或應用現場實地觀察，記錄操作人員在使用該工業產品時的流暢度及是否需要頻繁查看說明書。',
+              ques: '向購買該產品的企業客戶發放問卷，調查產品在性能表現、安全程度及對環境影響等方面的商業滿意度。',
+              int: '訪問負責研發該產品的工程師或專家，深入探討其應用的新技術原理，以及與舊一代產品相比的突破點。',
+              test: '對產品進行極端環境測試或效能測量，例如記錄機器在連續運作 48 小時後的溫度變化及產出效率，以證明其性能卓越。',
+              exp: '在安全的環境下，組員親自操作該工業產品的控制面板，體驗其「方便使用」的設計巧思，並拍攝操作示範。'
+            },
+            { id: 't16', title: '香港健康生活產業大奬', 
+              obs: '實地觀察該健康產品/服務在零售點的銷售情況，記錄消費者的購買熱度及職員講解健康功效時的互動。',
+              ques: '向曾購買該產品的消費者進行問卷調查，大範圍收集資料以印證該產品是否確實帶來了與健康相關的功效。',
+              int: '訪問營養師、物理治療師或相關醫學專家，取得專家對該產品創新性及其對社會健康價值的專業正面意見。',
+              test: '查閱產品的實驗室檢驗報告，或自行使用簡易儀器測試產品（如測量智能手錶的血氧偵測準確度與醫療儀器的差距）。',
+              exp: '組員連續試用該健康產品（如健康食品、健身 APP）一星期，將身體感覺的變化或使用的便利性以親身體驗角度記錄下來。'
+            },
+            { id: 't17', title: '最佳綠色生活空間', 
+              obs: '實地觀察該空間內的市民行為，記錄他們是否主動參與分類回收，以及空間設計如何引導大眾實踐綠色生活。',
+              ques: '向享用該綠色空間的市民發放問卷，調查他們認為該場所在改善環境質素及減少污染方面是否達到成效。',
+              int: '訪問該空間的園境設計師或環保項目總監，了解背後的環保設計理念及長遠可持續發展的規劃。',
+              test: '帶備儀器到場測試，例如測量該空間的植被覆蓋率如何有效降低熱島效應（測量氣溫），或測試其節能照明系統的光源效率。',
+              exp: '親身在該綠色空間進行休閒活動（如野餐、散步），感受空氣的清新度與環境的寧靜感，並將綠意盎然的優點攝錄下來。'
+            },
+            { id: 't18', title: '有「營」食譜設計比賽', 
+              obs: '舉辦小型試食會，實地觀察試食者在品嚐該食譜菜式時的表情、咀嚼時間及是否將食物吃光（光盤行為）。',
+              ques: '向試食群眾派發問卷，收集他們對該菜式的賣相、口感及味道的量化評分，以及在家庭重現這份食譜的意欲。',
+              int: '訪問專業營養師或資深廚師，請他們評估該食譜在營養價值均衡度、烹調技巧及食材配搭創意上的獨特之處。',
+              test: '使用食物磅嚴格測量食譜中各項食材的重量，並計算其卡路里、鈉及脂肪含量，以客觀數據證明其營養價值符合健康標準。',
+              exp: '組員親自根據該食譜進入廚房動手烹調一次，體驗其烹調方式是否簡單易學，並將整個製作及最終成品的賣相攝錄下來。'
+            },
+            { id: 't19', title: '香港資訊及通訊科技獎', 
+              obs: '實地觀察沒有科技背景的長者或小童在使用該軟件/應用程式時的介面操作行為，記錄他們會否遇到卡頓或迷失。',
+              ques: '向該軟件的下載用戶發放網上問卷，調查他們對程式功能實用性、操作難易度及公眾接受程度的評價。',
+              int: '訪問受惠於該科技產品的特定群組（如視障人士使用語音導航程式），深入了解該科技為他們的生活帶來了什麼實質的好處。',
+              test: '使用軟件測試工具對程式進行壓力測試（如記錄同時過千人登入時的系統延遲毫秒數），以數據證明其質量與穩定性。',
+              exp: '組員親自下載並深度使用該應用程式的各項核心功能，體驗其創新的交互設計，並將流暢的手機操作畫面螢幕錄影下來。'
+            }
+        ];
+
+        // 圖示與顏色設定
+        const methodUI = {
+            obs: { name: '實地觀察', icon: '👀', color: 'text-blue-700', bg: 'bg-blue-50', border: 'border-blue-200' },
+            ques: { name: '問卷調查', icon: '📋', color: 'text-orange-700', bg: 'bg-orange-50', border: 'border-orange-200' },
+            int: { name: '訪談', icon: '🎤', color: 'text-purple-700', bg: 'bg-purple-50', border: 'border-purple-200' },
+            test: { name: '測試', icon: '🧪', color: 'text-teal-700', bg: 'bg-teal-50', border: 'border-teal-200' },
+            exp: { name: '體驗', icon: '🚶', color: 'text-pink-700', bg: 'bg-pink-50', border: 'border-pink-200' }
+        };
+
+        // 初始化左側題目按鈕
+        window.onload = () => {
+            const container = document.getElementById('topic-list-container');
+            examplesDatabase.forEach(topic => {
+                const btn = document.createElement('button');
+                btn.className = 'topic-btn text-left p-3 rounded-xl bg-white border border-gray-200 text-sm font-medium text-gray-700 shadow-sm flex items-center justify-between';
+                btn.innerHTML = `<span>📝 ${topic.title}</span> <span class="text-gray-300">▶</span>`;
+                btn.onclick = () => selectTopic(topic, btn);
+                container.appendChild(btn);
+            });
+        };
+
+        function selectTopic(topic, btnElement) {
+            // 更新按鈕狀態
+            document.querySelectorAll('.topic-btn').forEach(b => {
+                b.classList.remove('active');
+                b.querySelector('.text-gray-300')?.classList.replace('text-gray-300', 'text-gray-300'); // Reset arrow if needed
+            });
+            btnElement.classList.add('active');
+            
+            // 切換右側視圖
+            document.getElementById('welcome-state').style.display = 'none';
+            document.getElementById('example-state').style.display = 'flex';
+            
+            // 更新標題
+            document.getElementById('display-topic-title').innerText = topic.title;
+            
+            // 填寫 5 大方法的具體例子
+            const examplesContainer = document.getElementById('examples-container');
+            examplesContainer.innerHTML = ''; // 清空舊資料
+            
+            const methods = ['obs', 'ques', 'int', 'test', 'exp'];
+            methods.forEach(mKey => {
+                const ui = methodUI[mKey];
+                const card = document.createElement('div');
+                card.className = `${ui.bg} border ${ui.border} rounded-2xl p-5 shadow-sm transform transition hover:-translate-y-1 hover:shadow-md`;
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3 border-b border-gray-200 pb-2">
+                        <span class="text-3xl">${ui.icon}</span>
+                        <h4 class="text-lg font-black ${ui.color}">${ui.name}</h4>
+                    </div>
+                    <p class="text-gray-700 text-sm md:text-base leading-relaxed font-medium">
+                        ${topic[mKey]}
+                    </p>
+                `;
+                examplesContainer.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
