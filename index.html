@@ -19,6 +19,7 @@
             background-color: transparent;
             perspective: 1000px;
             cursor: pointer;
+            -webkit-tap-highlight-color: transparent; /* 消除手機點擊時的預設高光色塊 */
         }
         .flip-card-inner {
             position: relative;
@@ -27,15 +28,17 @@
             text-align: center;
             transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
             transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d; /* 修正 iOS/Safari 的 3D 支援問題 */
         }
         
-        /* 針對電腦版保留 Hover 效果，避免在手機上產生點擊黏滯問題 */
-        @media (hover: hover) {
+        /* 嚴格限制：只有具備滑鼠的設備才會有 Hover 效果，避免手機觸控衝突 */
+        @media (hover: hover) and (pointer: fine) {
             .flip-card:hover .flip-card-inner {
                 transform: rotateY(180deg);
             }
         }
-        /* 給手機點擊用的 class */
+        
+        /* 手機專用的翻轉 Class */
         .flip-card.flipped .flip-card-inner {
             transform: rotateY(180deg);
         }
@@ -52,16 +55,18 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 1.25rem; /* 稍微縮小內距以容納更大的文字 */
+            padding: 1.25rem;
             border: 2px solid transparent;
         }
         .flip-card-front {
             background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+            z-index: 2; /* 確保正面在最上層，修正 Safari 破圖 */
         }
         .flip-card-back {
             background: linear-gradient(135deg, #3b82f6, #1e40af);
             color: white;
             transform: rotateY(180deg);
+            z-index: 1; /* 背面預設在下層 */
         }
 
         /* 題目按鈕樣式 */
@@ -96,13 +101,12 @@
             <h2 class="text-2xl md:text-3xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-700 flex items-center gap-2">
                 <span>🧠</span> 認識 5 大一手資料蒐集方法
             </h2>
-            <p class="text-gray-600 mb-8 text-base md:text-lg font-medium">一手資料是指自己直接搜集整理或親身經歷所得的材料。請將滑鼠移至（或點擊）下方卡片，了解每種方法的特點！</p>
+            <p class="text-gray-600 mb-8 text-base md:text-lg font-medium">一手資料是指自己直接搜集整理或親身經歷所得的材料。請點擊下方卡片，了解每種方法的特點！</p>
             
-            <!-- 調整卡片高度容納大字體 (h-80 到 lg:h-[22rem]) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 h-80 lg:h-[22rem]">
                 
-                <!-- 卡片 1：實地觀察 -->
-                <div class="flip-card h-full">
+                <!-- 卡片 1：實地觀察 (加入 onclick="this.classList.toggle('flipped')") -->
+                <div class="flip-card h-full" onclick="this.classList.toggle('flipped')">
                     <div class="flip-card-inner">
                         <div class="flip-card-front hover:border-blue-300">
                             <span class="text-6xl md:text-7xl mb-4">👀</span>
@@ -119,7 +123,7 @@
                 </div>
 
                 <!-- 卡片 2：問卷調查 -->
-                <div class="flip-card h-full">
+                <div class="flip-card h-full" onclick="this.classList.toggle('flipped')">
                     <div class="flip-card-inner">
                         <div class="flip-card-front hover:border-orange-300">
                             <span class="text-6xl md:text-7xl mb-4">📋</span>
@@ -136,7 +140,7 @@
                 </div>
 
                 <!-- 卡片 3：訪談 -->
-                <div class="flip-card h-full">
+                <div class="flip-card h-full" onclick="this.classList.toggle('flipped')">
                     <div class="flip-card-inner">
                         <div class="flip-card-front hover:border-purple-300">
                             <span class="text-6xl md:text-7xl mb-4">🎤</span>
@@ -153,7 +157,7 @@
                 </div>
 
                 <!-- 卡片 4：測試 -->
-                <div class="flip-card h-full">
+                <div class="flip-card h-full" onclick="this.classList.toggle('flipped')">
                     <div class="flip-card-inner">
                         <div class="flip-card-front hover:border-teal-300">
                             <span class="text-6xl md:text-7xl mb-4">🧪</span>
@@ -170,7 +174,7 @@
                 </div>
 
                 <!-- 卡片 5：體驗 -->
-                <div class="flip-card h-full">
+                <div class="flip-card h-full" onclick="this.classList.toggle('flipped')">
                     <div class="flip-card-inner">
                         <div class="flip-card-front hover:border-pink-300">
                             <span class="text-6xl md:text-7xl mb-4">🚶</span>
@@ -198,7 +202,7 @@
                     📂 選擇你的專題題目：
                 </h3>
                 <div id="topic-list-container" class="flex flex-col gap-2">
-                    <!-- JavaScript 將在此動態生成 19 個按鈕 -->
+                    <!-- JavaScript 將在此動態生成按鈕 -->
                 </div>
             </div>
 
@@ -215,7 +219,7 @@
                     <p class="text-base md:text-lg text-gray-700 mb-8 ml-6 font-bold">💡 參考以下 5 種方法，為你的小組搜集最具說服力的第一手資料：</p>
                     
                     <div class="flex-grow flex flex-col gap-5 overflow-y-auto pr-2" id="examples-container">
-                        <!-- 動態插入 5 個方法的例子 -->
+                        <!-- 動態插入例子 -->
                     </div>
                 </div>
             </div>
@@ -225,7 +229,6 @@
 
     <!-- JavaScript 數據與邏輯 -->
     <script>
-        // 建立 19 個專題題目的完整資料庫 (包含 5 種方法的具體例子)
         const examplesDatabase = [
             { id: 't1', title: '香港名牌選舉', 
               obs: '到該品牌的實體門市進行實地觀察，記錄一小時內駐足瀏覽產品的人流、顧客購買的行為特徵及門市的陳列吸引力。',
@@ -371,7 +374,7 @@
             exp: { name: '體驗', icon: '🚶', color: 'text-pink-700', bg: 'bg-pink-50', border: 'border-pink-200' }
         };
 
-        // 初始化左側題目按鈕與綁定卡片點擊事件
+        // 初始化左側題目按鈕
         window.onload = () => {
             const container = document.getElementById('topic-list-container');
             examplesDatabase.forEach(topic => {
@@ -380,13 +383,6 @@
                 btn.innerHTML = `<span>📝 ${topic.title}</span> <span class="text-gray-300">▶</span>`;
                 btn.onclick = () => selectTopic(topic, btn);
                 container.appendChild(btn);
-            });
-
-            // 加入卡片點擊翻轉功能 (支援手機點擊)
-            document.querySelectorAll('.flip-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    this.classList.toggle('flipped');
-                });
             });
         };
 
